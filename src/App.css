@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.act {
+  color: red;
+}
+
+.def {
+  color: black;
+}
+
+/*если назначим класс active то активная ссылка сразу получит этот класс*/
+.active {
+  font-size: 50px;
+}

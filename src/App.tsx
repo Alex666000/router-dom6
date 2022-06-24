@@ -13,34 +13,56 @@ export const Profile = () => { // типизировали как <Route path={'
         <div>profile</div>
     );
 };
+
 function App() {
     return (
         <div className="App">
             {/*чтобы могли переходить на эти страницы*/}
             <NavLink to={'/'}> main</NavLink>
             <NavLink to={'/login'}> login</NavLink>
-            <NavLink to={'/profile'}> profile</NavLink>
-            <NavLink to={'/profile/1'}> profile/1</NavLink>
 
+
+            <NavLink to={'/profile'}
+                // style={{color: 'lime'}} - меняем стиль ссылки как хотим, тут класс подтягивается автоматом className_мом же мы сами контролируем
+
+                /*если хотим чтобы наша ссылка красилась только когда она активная на style, то:*/
+                     style={(params) => {
+                         return {color: params.isActive ? 'lime' : 'black'}
+                     }}
+            >
+                profile
+            </NavLink>
+
+
+            <NavLink to={'/profile/settings'}
+                /*если хотим чтобы наша ссылка красилась только когда она активная на className, то:*/
+                     className={({isActive}) => {
+                         return isActive ? 'act' : 'def'
+                     }}
+            > settings</NavLink>
+            {/*пример обычной ссылки*/}
+            <a
+                href="vk.com"
+                target={'_blank'}
+                // rel={'hello'} этот параметр для безопасности чтобы нас не могли увидеть откуда мы пришли и нельзя было получить доступ к нашей сети
+            > xxxxxxx</a>
             <Routes>
                 <Route path={'/*'} element={<div>404</div>}/>
                 <Route path={'/'} element={<div>main</div>}/>
                 <Route path={'/login'} element={<div>login</div>}/>
-                {/*<Route path={'/profile/:id'} element={<Profile/>}/>*/}
-                {/*<Route path={'/profile/:x/:y'} element={<Profile/>}/>*/}
-                {/*<Route path={'/profile/:x'} element={<Profile/>}/>*/}
-                <Route path={'/profile/*'} element={<Profile/>}/>  {/*звездочка - необязательный параметр - послу profile может быть что угодно*/}
+                <Route path={'/profile/*'} element={<div>settings</div>}/>
             </Routes>
         </div>
     );
 }
+
 export default App;
 
 /*
-1- const params = useParams() - достаем параметры и сохраняем в переменную const some = params
-2 - id всегда строка если нужна не строка то "+" можно перевести в число
-3- звездочка - необязательный параметр - пищется только в конце как в 5 версии в середине url теперь нельзя писать
-4 - * - это все что идет после "слеша"
-5 - <Route path={'/profile/:x'} element={<Profile/>}/> : КАК "КЛЮЧ",
-    <NavLink to={'/profile/1'}> profile/1</NavLink> как значение: {x: '1'} - увидим в консоли
-* */
+если назначим класс active то активная ссылка сразу получит этот класс
+1) .active {
+    font-size: 50px;
+} - именно такого названия и не module.css(module.css изменяют название класса)
+className - не применится .active так как мы его контролируем "класснеймом" - если делаем активные сслыки то их лучше сразу ставим как контроллируемые
+2) Link если будет вместо NavLink, то они не поддерживают ни стили ни className значит ссылки окрасить нельзя - если нам просто ссылки нужны используем NavLink
+*/
