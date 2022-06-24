@@ -1,56 +1,52 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-import {NavLink, Route, Routes, useParams} from 'react-router-dom';
+import {Navigate, NavLink, Route, Routes, useNavigate} from 'react-router-dom';
+import {findAllByDisplayValue} from '@testing-library/react';
+export const Profile = () => {
+    const navigate = useNavigate() // перенаправит нас... хук с помощью которого получаем функцию перенаправления navigate()
 
-export const Profile = () => { // типизировали как <Route path={'/profile/:id'} element={<Profile/>}/> id ки должны совпадать
-    // const params = useParams<'id'>()
-    // const params = useParams<'x' | 'y'>() //  x,y с path={'/profile/:x/:y'}
-    const params = useParams<'*'>() // достали параметр *
-    const some = params['*'] // достали параметр * с подсказкой webstorm
-    console.log(some) // {id: '1'}
-
+    /*    useEffect( () => {
+            if (true) navigate('/login')
+        }, [])*/
     return (
-        <div>profile</div>
+        // <div>
+        //     {/*{true ? (<Navigate to={'/login'} />): (*/}
+        //     {/*    <>*/}
+        //     {/*    profile*/}
+        //     {/*    <button onClick={() => {*/}
+        //     {/*    navigate('/login')   /*по клику перейдем на логин*/}
+        //     {/*}}>logout</button>*/}
+        //     {/*    </>*/}
+        //     {/*    ) }*/}
+        //
+        // </div>
+        // <div>
+        //     profile
+        //     <button onClick={ () => { navigate('/login') } }>logout</button>
+        // </div>
+        // подставить можем не только текст, но и число:
+    <div>
+            profile
+            <button onClick={ () => { navigate(-1) } }>logout</button> {/*означает, что отматать на стр. назад*/}
+        </div>
     );
 };
-
 function App() {
     return (
         <div className="App">
             {/*чтобы могли переходить на эти страницы*/}
             <NavLink to={'/'}> main</NavLink>
             <NavLink to={'/login'}> login</NavLink>
+            <NavLink to={'/profile'}> profile</NavLink>
+            <NavLink
+                to={'/profile/settings'}> settings/1</NavLink> {/*"NavLink" - это ссылка на которую можно вешать стили style className*/}
 
-
-            <NavLink to={'/profile'}
-                // style={{color: 'lime'}} - меняем стиль ссылки как хотим, тут класс подтягивается автоматом className_мом же мы сами контролируем
-
-                /*если хотим чтобы наша ссылка красилась только когда она активная на style, то:*/
-                     style={(params) => {
-                         return {color: params.isActive ? 'lime' : 'black'}
-                     }}
-            >
-                profile
-            </NavLink>
-
-
-            <NavLink to={'/profile/settings'}
-                /*если хотим чтобы наша ссылка красилась только когда она активная на className, то:*/
-                     className={({isActive}) => {
-                         return isActive ? 'act' : 'def'
-                     }}
-            > settings</NavLink>
-            {/*пример обычной ссылки*/}
-            <a
-                href="vk.com"
-                target={'_blank'}
-                // rel={'hello'} этот параметр для безопасности чтобы нас не могли увидеть откуда мы пришли и нельзя было получить доступ к нашей сети
-            > xxxxxxx</a>
             <Routes>
                 <Route path={'/*'} element={<div>404</div>}/>
                 <Route path={'/'} element={<div>main</div>}/>
-                <Route path={'/login'} element={<div>login</div>}/>
-                <Route path={'/profile/*'} element={<div>settings</div>}/>
+                <Route path={'/login'} element={<div>login</div>}/> {/*Роут - это страница*/}
+                <Route path={'/profile'} element={<Profile/>}/>
+                <Route path={'/profile/settings'} element={<div>settings</div>}/>
             </Routes>
         </div>
     );
@@ -58,11 +54,13 @@ function App() {
 
 export default App;
 
-/*
-если назначим класс active то активная ссылка сразу получит этот класс
-1) .active {
-    font-size: 50px;
-} - именно такого названия и не module.css(module.css изменяют название класса)
-className - не применится .active так как мы его контролируем "класснеймом" - если делаем активные сслыки то их лучше сразу ставим как контроллируемые
-2) Link если будет вместо NavLink, то они не поддерживают ни стили ни className значит ссылки окрасить нельзя - если нам просто ссылки нужны используем NavLink
+/* 1)  "РЕДЕРЕКТ НА ЛОГИН С ПОМОЩЬЮ useEffect"  useEffect( () => {
+        if (true) navigate('/login')
+    }, [])
+    2)    "РЕДЕРЕКТ НА ЛОГИН С ПОМОЩЬЮ: {true ? (<Navigate to={'/login'} />):
+    <>
+    profile
+     <button onClick={() => navigate('/login') } >logout</button>
+    </>
+    3)  <button onClick={ () => { navigate(-1) } }>logout</button> означает, что отматать на стр. назад -1
 */
