@@ -1,36 +1,27 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import {Navigate, NavLink, Route, Routes, useNavigate} from 'react-router-dom';
-import {findAllByDisplayValue} from '@testing-library/react';
-export const Profile = () => {
-    const navigate = useNavigate() // перенаправит нас... хук с помощью которого получаем функцию перенаправления navigate()
+import {NavLink, Route, Routes} from 'react-router-dom';
 
-    /*    useEffect( () => {
-            if (true) navigate('/login')
-        }, [])*/
+export const Profile = () => {
+    const [searchParams, setSearchParams] = useSearchParams() /*работает с "квери" параметрами*/
+    console.log(searchParams.get('name'))  /*дай нам содержимое переменной name - "переменная", что приписывается в адресной строки url*/
+    console.log(Object.fromEntries(searchParams))  /*предыдущее значение - js объект*/
+
+    useEffect(() => {
+        console.log('research...')
+    }, [searchParams])
+
     return (
-        // <div>
-        //     {/*{true ? (<Navigate to={'/login'} />): (*/}
-        //     {/*    <>*/}
-        //     {/*    profile*/}
-        //     {/*    <button onClick={() => {*/}
-        //     {/*    navigate('/login')   /*по клику перейдем на логин*/}
-        //     {/*}}>logout</button>*/}
-        //     {/*    </>*/}
-        //     {/*    ) }*/}
-        //
-        // </div>
-        // <div>
-        //     profile
-        //     <button onClick={ () => { navigate('/login') } }>logout</button>
-        // </div>
-        // подставить можем не только текст, но и число:
-    <div>
+        <div>
             profile
-            <button onClick={ () => { navigate(-1) } }>logout</button> {/*означает, что отматать на стр. назад*/}
+            <button onClick={() => {
+                setSearchParams({age: '32'})  /*устанавливаем новую "квери" переменную : name в url строке перезапишется на age=32, значение = всегда в виде строки*/
+                setSearchParams({...Object.fromEntries(searchParams), age: '32'})  /*предыдущее значение в url сохранится name и через "слеш" новое свойство age=32*/
+            }}>add age</button>
         </div>
-    );
+    )
 };
+
 function App() {
     return (
         <div className="App">
