@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import {NavLink, Route, Routes} from 'react-router-dom';
+import {NavLink, Route, Routes, useSearchParams} from 'react-router-dom';
 
 export const Profile = () => {
     const [searchParams, setSearchParams] = useSearchParams() /*работает с "квери" параметрами*/
@@ -21,7 +21,6 @@ export const Profile = () => {
         </div>
     )
 };
-
 function App() {
     return (
         <div className="App">
@@ -42,16 +41,13 @@ function App() {
         </div>
     );
 }
-
 export default App;
 
-/* 1)  "РЕДЕРЕКТ НА ЛОГИН С ПОМОЩЬЮ useEffect"  useEffect( () => {
-        if (true) navigate('/login')
-    }, [])
-    2)    "РЕДЕРЕКТ НА ЛОГИН С ПОМОЩЬЮ: {true ? (<Navigate to={'/login'} />):
-    <>
-    profile
-     <button onClick={() => navigate('/login') } >logout</button>
-    </>
-    3)  <button onClick={ () => { navigate(-1) } }>logout</button> означает, что отматать на стр. назад -1
-*/
+/*
+searchParams - это адресная строка url setSearchParams - обновляет searchParams - устанавливает объект - работате с формой, инпутом, текстареа
+* - звездочка означает если страница никакая не найдена
+параметры поиска - это все что идет после ? знака в поисковой строке
+exact - стоит по умолчанию теперь нет такого параметра в 6 версии
+Outlet - куда иы хотим вставить все остальное - организуется за счет вложенных Роутов внутри <Route> </Route> - дочерние элементы
+класс active добавляется к style className это может менять настраивать
+ */
